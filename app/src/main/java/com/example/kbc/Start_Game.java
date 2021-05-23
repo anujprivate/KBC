@@ -345,6 +345,7 @@ public class Start_Game extends AppCompatActivity {
                     button4.setBackgroundResource(R.drawable.rounder_corners_2_pressed);
                     button5.setBackgroundResource(R.drawable.rounder_corners_2_pressed);
                     button6.setBackgroundResource(R.drawable.rounder_corners_2_pressed); */
+                    button2.setVisibility(View.INVISIBLE);
                     button3.setVisibility(View.INVISIBLE);
                     button4.setVisibility(View.INVISIBLE);
                     button5.setVisibility(View.INVISIBLE);
