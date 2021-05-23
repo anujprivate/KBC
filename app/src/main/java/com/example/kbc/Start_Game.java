@@ -11,6 +11,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -35,6 +36,8 @@ public class Start_Game extends AppCompatActivity {
     Button button10;
     Button button11;
     Button button12;
+    Button hidbutton1;
+    EditText hidtextbox1;
     private ConstraintLayout myconlayout;
     private ConstraintSet myconset = new ConstraintSet();
 
@@ -46,6 +49,11 @@ public class Start_Game extends AppCompatActivity {
     int q=0;
     int timer=0;
     float tick = 0.00000000f;
+    boolean lifelinebused = false;
+    char select1;
+    char select2;
+    int lifelinebcounter = 0;
+    int lifelinesused = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +71,8 @@ public class Start_Game extends AppCompatActivity {
         button10 = (Button) findViewById(R.id.btn10);
         button11 = (Button) findViewById(R.id.btn11);
         button12 = (Button) findViewById(R.id.btn12);
+        hidbutton1 = (Button) findViewById(R.id.hidbtn1);
+        hidtextbox1 = (EditText) findViewById(R.id.hidtextbox1);
         mp2 = MediaPlayer.create(this,R.raw.kbc_theme1);
         button2.setVisibility(View.INVISIBLE);
         button3.setVisibility(View.INVISIBLE);
@@ -80,146 +90,173 @@ public class Start_Game extends AppCompatActivity {
         button3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                button3.setClickable(false);
-                button4.setClickable(false);
-                button5.setClickable(false);
-                button6.setClickable(false);
-                timer(0);
-                playmusic(2,0);
-                button3.setBackgroundResource(R.drawable.rounder_corners_2_pressed);
-                mytimer2 = new CountDownTimer(2000,1000) {
-                    @Override
-                    public void onTick(long millisUntilFinished) {
-
-                    }
-                    @Override
-                    public void onFinish() {
-
-                        correct = checkans('A',correctanswer);
-                        if (correct == 1){
-                            button3.setBackgroundResource(R.drawable.rounded_corners);
-                            Toast.makeText(getApplicationContext(),"Correct Answer",Toast.LENGTH_SHORT).show();
-                            q++;
-                            correctanswer = startgame(q);
-                        } else if (correct == 0){
-                            button9.setVisibility(View.INVISIBLE);
-                            button9.setClickable(false);
-                            playmusic(3,0);
-                            button3.setBackgroundResource(R.drawable.wrong_answer);
-                            Toast.makeText(getApplicationContext(),"Wrong Answer",Toast.LENGTH_LONG).show();
+                if (lifelinebused){
+                    lifelineb('A');
+                }else{
+                    button3.setClickable(false);
+                    button4.setClickable(false);
+                    button5.setClickable(false);
+                    button6.setClickable(false);
+                    timer(0);
+                    playmusic(2,0);
+                    button3.setBackgroundResource(R.drawable.rounder_corners_2_pressed);
+                    mytimer2 = new CountDownTimer(5000,1000) {
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+                            if (millisUntilFinished < 3000){
+                                if (correctanswer == 'A'){
+                                    button3.setBackgroundResource(R.drawable.rounder_corners_2);
+                                }
+                            }
                         }
-                    }
-                }.start();
+                        @Override
+                        public void onFinish() {
 
-
+                            correct = checkans('A',correctanswer);
+                            if (correct == 1){
+                                button3.setBackgroundResource(R.drawable.rounded_corners);
+                                Toast.makeText(getApplicationContext(),"Correct Answer",Toast.LENGTH_SHORT).show();
+                                q++;
+                                correctanswer = startgame(q);
+                            } else if (correct == 0){
+                                button9.setVisibility(View.INVISIBLE);
+                                button9.setClickable(false);
+                                playmusic(3,0);
+                                button3.setBackgroundResource(R.drawable.wrong_answer);
+                                Toast.makeText(getApplicationContext(),"Wrong Answer",Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }.start();
+                }
             }
         });
         button4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                button3.setClickable(false);
-                button4.setClickable(false);
-                button5.setClickable(false);
-                button6.setClickable(false);
-                timer(0);
-                playmusic(2,0);
-                button4.setBackgroundResource(R.drawable.rounder_corners_2_pressed);
-                mytimer2 = new CountDownTimer(2000,1000) {
-                    @Override
-                    public void onTick(long millisUntilFinished) {
-
-                    }
-                    @Override
-                    public void onFinish() {
-
-                        correct = checkans('B',correctanswer);
-                        if (correct == 1){
-                            button4.setBackgroundResource(R.drawable.rounded_corners);
-                            Toast.makeText(getApplicationContext(),"Correct Answer",Toast.LENGTH_SHORT).show();
-                            q++;
-                            correctanswer = startgame(q);
-                        } else if (correct == 0){
-                            button9.setVisibility(View.INVISIBLE);
-                            button9.setClickable(false);
-                            playmusic(3,0);
-                            button4.setBackgroundResource(R.drawable.wrong_answer);
-                            Toast.makeText(getApplicationContext(),"Wrong Answer",Toast.LENGTH_LONG).show();
+                if (lifelinebused){
+                    lifelineb('B');
+                }else{
+                    button3.setClickable(false);
+                    button4.setClickable(false);
+                    button5.setClickable(false);
+                    button6.setClickable(false);
+                    timer(0);
+                    playmusic(2,0);
+                    button4.setBackgroundResource(R.drawable.rounder_corners_2_pressed);
+                    mytimer2 = new CountDownTimer(5000,1000) {
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+                            if (millisUntilFinished < 3000){
+                                if (correctanswer == 'B'){
+                                    button4.setBackgroundResource(R.drawable.rounder_corners_2);
+                                }
+                            }
                         }
-                    }
-                }.start();
+                        @Override
+                        public void onFinish() {
 
+                            correct = checkans('B',correctanswer);
+                            if (correct == 1){
+                                button4.setBackgroundResource(R.drawable.rounded_corners);
+                                Toast.makeText(getApplicationContext(),"Correct Answer",Toast.LENGTH_SHORT).show();
+                                q++;
+                                correctanswer = startgame(q);
+                            } else if (correct == 0){
+                                button9.setVisibility(View.INVISIBLE);
+                                button9.setClickable(false);
+                                playmusic(3,0);
+                                button4.setBackgroundResource(R.drawable.wrong_answer);
+                                Toast.makeText(getApplicationContext(),"Wrong Answer",Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }.start();
+                }
             }
         });
         button5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                button3.setClickable(false);
-                button4.setClickable(false);
-                button5.setClickable(false);
-                button6.setClickable(false);
-                timer(0);
-                playmusic(2,0);
-                button5.setBackgroundResource(R.drawable.rounder_corners_2_pressed);
-                mytimer2 = new CountDownTimer(2000,1000) {
-                    @Override
-                    public void onTick(long millisUntilFinished) {
-
-                    }
-                    @Override
-                    public void onFinish() {
-
-                        correct = checkans('C',correctanswer);
-                        if (correct == 1){
-                            button5.setBackgroundResource(R.drawable.rounded_corners);
-                            Toast.makeText(getApplicationContext(),"Correct Answer",Toast.LENGTH_SHORT).show();
-                            q++;
-                            correctanswer = startgame(q);
-                        } else if (correct == 0){
-                            button9.setVisibility(View.INVISIBLE);
-                            button9.setClickable(false);
-                            playmusic(3,0);
-                            button5.setBackgroundResource(R.drawable.wrong_answer);
-                            Toast.makeText(getApplicationContext(),"Wrong Answer",Toast.LENGTH_LONG).show();
+                if (lifelinebused){
+                    lifelineb('C');
+                }else{
+                    button3.setClickable(false);
+                    button4.setClickable(false);
+                    button5.setClickable(false);
+                    button6.setClickable(false);
+                    timer(0);
+                    playmusic(2,0);
+                    button5.setBackgroundResource(R.drawable.rounder_corners_2_pressed);
+                    mytimer2 = new CountDownTimer(5000,1000) {
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+                            if (millisUntilFinished < 3000){
+                                if (correctanswer == 'C'){
+                                    button5.setBackgroundResource(R.drawable.rounder_corners_2);
+                                }
+                            }
                         }
-                    }
-                }.start();
+                        @Override
+                        public void onFinish() {
 
+                            correct = checkans('C',correctanswer);
+                            if (correct == 1){
+                                button5.setBackgroundResource(R.drawable.rounded_corners);
+                                Toast.makeText(getApplicationContext(),"Correct Answer",Toast.LENGTH_SHORT).show();
+                                q++;
+                                correctanswer = startgame(q);
+                            } else if (correct == 0){
+                                button9.setVisibility(View.INVISIBLE);
+                                button9.setClickable(false);
+                                playmusic(3,0);
+                                button5.setBackgroundResource(R.drawable.wrong_answer);
+                                Toast.makeText(getApplicationContext(),"Wrong Answer",Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }.start();
+                }
             }
         });
         button6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                button3.setClickable(false);
-                button4.setClickable(false);
-                button5.setClickable(false);
-                button6.setClickable(false);
-                timer(0);
-                playmusic(2,0);
-                button6.setBackgroundResource(R.drawable.rounder_corners_2_pressed);
-                mytimer2 = new CountDownTimer(2000,1000) {
-                    @Override
-                    public void onTick(long millisUntilFinished) {
-
-                    }
-                    @Override
-                    public void onFinish() {
-
-                        correct = checkans('D',correctanswer);
-                        if (correct == 1){
-                            button6.setBackgroundResource(R.drawable.rounded_corners);
-                            Toast.makeText(getApplicationContext(),"Correct Answer",Toast.LENGTH_SHORT).show();
-                            q++;
-                            correctanswer = startgame(q);
-                        } else if (correct == 0){
-                            button9.setVisibility(View.INVISIBLE);
-                            button9.setClickable(false);
-                            playmusic(3,0);
-                            button6.setBackgroundResource(R.drawable.wrong_answer);
-                            Toast.makeText(getApplicationContext(),"Wrong Answer",Toast.LENGTH_LONG).show();
+                if (lifelinebused){
+                    lifelineb('D');
+                }else{
+                    button3.setClickable(false);
+                    button4.setClickable(false);
+                    button5.setClickable(false);
+                    button6.setClickable(false);
+                    timer(0);
+                    playmusic(2,0);
+                    button6.setBackgroundResource(R.drawable.rounder_corners_2_pressed);
+                    mytimer2 = new CountDownTimer(5000,1000) {
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+                            if (millisUntilFinished < 3000){
+                                if (correctanswer == 'D'){
+                                    button6.setBackgroundResource(R.drawable.rounder_corners_2);
+                                }
+                            }
                         }
-                    }
-                }.start();
+                        @Override
+                        public void onFinish() {
 
+                            correct = checkans('D',correctanswer);
+                            if (correct == 1){
+                                button6.setBackgroundResource(R.drawable.rounded_corners);
+                                Toast.makeText(getApplicationContext(),"Correct Answer",Toast.LENGTH_SHORT).show();
+                                q++;
+                                correctanswer = startgame(q);
+                            } else if (correct == 0){
+                                button9.setVisibility(View.INVISIBLE);
+                                button9.setClickable(false);
+                                playmusic(3,0);
+                                button6.setBackgroundResource(R.drawable.wrong_answer);
+                                Toast.makeText(getApplicationContext(),"Wrong Answer",Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    }.start();
+                }
             }
         });
         button7.setOnClickListener(new View.OnClickListener() {
@@ -229,54 +266,274 @@ public class Start_Game extends AppCompatActivity {
                 finish();
             }
         });
-        button9.setOnClickListener(new View.OnClickListener() {
+
+        button9.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onClick(View v) {
-                button10.setVisibility(View.VISIBLE);
-                button11.setVisibility(View.VISIBLE);
-                button12.setVisibility(View.VISIBLE);
-                button10.setClickable(false);
-                button11.setClickable(false);
-                button12.setClickable(false);
+            public boolean onLongClick(View v) {
+                //Toast.makeText(getApplicationContext(),"LONG PRESS",Toast.LENGTH_SHORT).show();
                 timer(0);
-                button9.setClickable(false);
-                button2.setVisibility(View.INVISIBLE);
+                stopmusic();
+                button9.setVisibility(View.INVISIBLE);
+                button8.setVisibility(View.INVISIBLE);
+                button2.setText("ADMIN MODE ENTERED, PRESS EXIT IF UNINTENTIONAL");
                 button3.setVisibility(View.INVISIBLE);
                 button4.setVisibility(View.INVISIBLE);
                 button5.setVisibility(View.INVISIBLE);
                 button6.setVisibility(View.INVISIBLE);
-                tick = 0.03000000f;
-                myconset.clone(myconlayout);
-                mytimer2 = new CountDownTimer(1350,50) {
+                hidbutton1.setVisibility(View.VISIBLE);
+                hidtextbox1.setVisibility(View.VISIBLE);
+                return true;
+            }
+        });
+
+        button9.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (lifelinesused < 3){
+                    button10.setVisibility(View.VISIBLE);
+                    button11.setVisibility(View.VISIBLE);
+                    button12.setVisibility(View.VISIBLE);
+                    timer(0);
+                    stopmusic();
+                    button9.setClickable(false);
+                    button2.setVisibility(View.INVISIBLE);
+                    button3.setVisibility(View.INVISIBLE);
+                    button4.setVisibility(View.INVISIBLE);
+                    button5.setVisibility(View.INVISIBLE);
+                    button6.setVisibility(View.INVISIBLE);
+                    tick = 0.03000000f;
+                    myconset.clone(myconlayout);
+                    mytimer2 = new CountDownTimer(1350,50) {
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+                            tick = tick + 0.01000000f;
+                            if (tick <= 0.30f){
+                                myconset.setVerticalBias(R.id.btn12,tick);
+                                myconset.applyTo(myconlayout);
+                                //Log.d("Value of tick",String.valueOf(Float.valueOf(tick)));
+                            }
+                            if (tick <= 0.22f){
+                                myconset.setVerticalBias(R.id.btn11,tick);
+                                myconset.applyTo(myconlayout);
+                            }
+                            if (tick <= 0.12f) {
+                                myconset.setVerticalBias(R.id.btn10,tick);
+                                myconset.applyTo(myconlayout);
+                            }
+                        }
+
+                        @Override
+                        public void onFinish() {
+
+                        }
+                    }.start();
+
+                }else{
+                    button9.setBackgroundResource(R.drawable.wrong_answer);
+                    button9.setClickable(false);
+                }
+
+            }
+        });
+        button10.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                lifelinesused++;
+                button2.setVisibility(View.VISIBLE);
+                button10.setVisibility((View.INVISIBLE));
+                button11.setVisibility((View.INVISIBLE));
+                button12.setVisibility((View.INVISIBLE));
+                if (correctanswer == 'A'){
+                    button3.setVisibility(View.VISIBLE);
+                    button6.setVisibility(View.VISIBLE);
+                }else if (correctanswer == 'B'){
+                    button4.setVisibility(View.VISIBLE);
+                    button5.setVisibility(View.VISIBLE);
+                }else if (correctanswer == 'C'){
+                    button5.setVisibility(View.VISIBLE);
+                    button4.setVisibility(View.VISIBLE);
+                }else if (correctanswer == 'D') {
+                    button6.setVisibility(View.VISIBLE);
+                    button3.setVisibility(View.VISIBLE);
+                }
+                button10.setClickable(false);
+                button10.setBackgroundResource(R.drawable.wrong_answer);
+            }
+        });
+        button11.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                lifelinesused++;
+                button11.setClickable(false);
+                button2.setVisibility(View.VISIBLE);
+                button3.setVisibility(View.VISIBLE);
+                button4.setVisibility(View.VISIBLE);
+                button5.setVisibility(View.VISIBLE);
+                button6.setVisibility(View.VISIBLE);
+                button10.setVisibility((View.INVISIBLE));
+                //button11.setVisibility((View.INVISIBLE));
+                button12.setVisibility((View.INVISIBLE));
+                lifelinebused = true;
+            }
+        });
+        button12.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                lifelinesused++;
+                button12.setClickable(false);
+                button12.setBackgroundResource(R.drawable.wrong_answer);
+                button10.setVisibility(View.INVISIBLE);
+                button11.setVisibility(View.INVISIBLE);
+                button2.setVisibility(View.VISIBLE);
+                button3.setVisibility(View.VISIBLE);
+                button4.setVisibility(View.VISIBLE);
+                button5.setVisibility(View.VISIBLE);
+                button6.setVisibility(View.VISIBLE);
+                mytimer2 = new CountDownTimer(5000,1000) {
                     @Override
                     public void onTick(long millisUntilFinished) {
-                        tick = tick + 0.01000000f;
-                        if (tick <= 0.30f){
-                            myconset.setVerticalBias(R.id.btn12,tick);
-                            myconset.applyTo(myconlayout);
-                            //Log.d("Value of tick",String.valueOf(Float.valueOf(tick)));
+                        if (millisUntilFinished < 3000){
+                            if(correctanswer == 'A'){
+                                button3.setBackgroundResource(R.drawable.rounder_corners_2);
+                            }else if (correctanswer == 'B'){
+                                button4.setBackgroundResource(R.drawable.rounder_corners_2);
+                            }else if (correctanswer == 'C'){
+                                button5.setBackgroundResource(R.drawable.rounder_corners_2);
+                            }else if (correctanswer =='D'){
+                                button6.setBackgroundResource(R.drawable.rounder_corners_2);
+                            }
                         }
-                        if (tick <= 0.22f){
-                            myconset.setVerticalBias(R.id.btn11,tick);
-                            myconset.applyTo(myconlayout);
-                        }
-                        if (tick <= 0.12f) {
-                            myconset.setVerticalBias(R.id.btn10,tick);
-                            myconset.applyTo(myconlayout);
-                        }
-
-
                     }
 
                     @Override
                     public void onFinish() {
-
+                        button3.setBackgroundResource(R.drawable.rounded_corners);
+                        button4.setBackgroundResource(R.drawable.rounded_corners);
+                        button5.setBackgroundResource(R.drawable.rounded_corners);
+                        button6.setBackgroundResource(R.drawable.rounded_corners);
+                        button12.setVisibility(View.INVISIBLE);
+                        q++;
+                        correctanswer = startgame(q);
                     }
                 }.start();
 
             }
         });
+        hidbutton1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                q=Integer.parseInt(hidtextbox1.getText().toString());
+                hidbutton1.setVisibility(View.INVISIBLE);
+                hidtextbox1.setVisibility(View.INVISIBLE);
+                button9.setVisibility(View.VISIBLE);
+                button8.setVisibility(View.VISIBLE);
+                correctanswer = startgame(q);
+            }
+        });
 
+    }
+
+    private void lifelineb(char selected) {
+        lifelinebcounter++;
+        if (lifelinebcounter == 2){
+            if (selected == 'A'){
+                button3.setBackgroundResource(R.drawable.rounder_corners_2_pressed);
+                button3.setClickable(false);
+                select2 = 'A';
+            }else if (selected == 'B'){
+                button4.setBackgroundResource(R.drawable.rounder_corners_2_pressed);
+                button4.setClickable(false);
+                select2 = 'B';
+            }else if (selected == 'C'){
+                button5.setBackgroundResource(R.drawable.rounder_corners_2_pressed);
+                button5.setClickable(false);
+                select2 = 'C';
+            }else if (selected == 'D'){
+                button6.setBackgroundResource(R.drawable.rounder_corners_2_pressed);
+                button6.setClickable(false);
+                select2 = 'D';
+            }
+            button3.setClickable(false);
+            button4.setClickable(false);
+            button5.setClickable(false);
+            button6.setClickable(false);
+            button11.setVisibility(View.INVISIBLE);
+            button11.setBackgroundResource(R.drawable.wrong_answer);
+            lifelinebused = false;
+            if (select1 == correctanswer || select2 == correctanswer){
+                mytimer2 = new CountDownTimer(5000,1000) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+                        if (millisUntilFinished < 2000){
+                            if(correctanswer == 'A'){
+                                button3.setBackgroundResource(R.drawable.rounder_corners_2);
+                            }else if (correctanswer == 'B'){
+                                button4.setBackgroundResource(R.drawable.rounder_corners_2);
+                            }else if (correctanswer == 'C'){
+                                button5.setBackgroundResource(R.drawable.rounder_corners_2);
+                            }else if (correctanswer =='D'){
+                                button6.setBackgroundResource(R.drawable.rounder_corners_2);
+                            }
+                        }
+
+                    }
+                    @Override
+                    public void onFinish() {
+                        button3.setBackgroundResource(R.drawable.rounded_corners);
+                        button4.setBackgroundResource(R.drawable.rounded_corners);
+                        button5.setBackgroundResource(R.drawable.rounded_corners);
+                        button6.setBackgroundResource(R.drawable.rounded_corners);
+                        Toast.makeText(getApplicationContext(),"Correct Answer",Toast.LENGTH_SHORT).show();
+                        q++;
+                        correctanswer = startgame(q);
+                    }
+                }.start();
+            }else{
+                mytimer2 = new CountDownTimer(5000,1000) {
+                    @Override
+                    public void onTick(long millisUntilFinished) {
+                        if (millisUntilFinished < 2000){
+                            if(correctanswer == 'A'){
+                                button3.setBackgroundResource(R.drawable.rounder_corners_2);
+                            }else if (correctanswer == 'B'){
+                                button4.setBackgroundResource(R.drawable.rounder_corners_2);
+                            }else if (correctanswer == 'C'){
+                                button5.setBackgroundResource(R.drawable.rounder_corners_2);
+                            }else if (correctanswer =='D'){
+                                button6.setBackgroundResource(R.drawable.rounder_corners_2);
+                            }
+                        }
+
+                    }
+                    @Override
+                    public void onFinish() {
+                        button9.setVisibility(View.INVISIBLE);
+                        button9.setClickable(false);
+                        playmusic(3,0);
+                        Toast.makeText(getApplicationContext(),"Wrong Answer",Toast.LENGTH_LONG).show();
+                    }
+                }.start();
+            }
+
+        } else if (lifelinebcounter == 1){
+            if (selected == 'A'){
+                button3.setBackgroundResource(R.drawable.rounder_corners_2_pressed);
+                button3.setClickable(false);
+                select1 = 'A';
+            }else if (selected == 'B'){
+                button4.setBackgroundResource(R.drawable.rounder_corners_2_pressed);
+                button4.setClickable(false);
+                select1 = 'B';
+            }else if (selected == 'C'){
+                button5.setBackgroundResource(R.drawable.rounder_corners_2_pressed);
+                button5.setClickable(false);
+                select1 = 'C';
+            }else if (selected == 'D'){
+                button6.setBackgroundResource(R.drawable.rounder_corners_2_pressed);
+                button6.setClickable(false);
+                select1 = 'D';
+            }
+        }
     }
 
 
@@ -372,6 +629,7 @@ public class Start_Game extends AppCompatActivity {
             button4.setClickable(true);
             button5.setClickable(true);
             button6.setClickable(true);
+            button9.setClickable(true);
             playmusic(4,0);
             char correctans = 'E';
             button2.setText(QuestionsGet.get(a).getQues());
@@ -384,6 +642,13 @@ public class Start_Game extends AppCompatActivity {
             return correctans;
         }else{
             Toast.makeText(getApplicationContext(),"GAME OVER !!",Toast.LENGTH_LONG).show();
+            button2.setText("YOU HAVE WON THE GAME !! CONGRATULATIONS");
+            playmusic(5,0);
+            button2.setVisibility(View.VISIBLE);
+            button3.setVisibility(View.INVISIBLE);
+            button4.setVisibility(View.INVISIBLE);
+            button5.setVisibility(View.INVISIBLE);
+            button6.setVisibility(View.INVISIBLE);
             return 'E';
         }
 
@@ -418,18 +683,6 @@ public class Start_Game extends AppCompatActivity {
             //mp2.release();
         }
     }
-
-/*    private void stopmusicdelayed(){
-        if (mp2.isPlaying()){
-            mp2.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mp) {
-                    mp2.stop();
-                }
-            });
-        }
-    } */
-
 
     @Override
     public void onBackPressed() {
