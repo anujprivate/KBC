@@ -85,6 +85,7 @@ public class Start_Game extends AppCompatActivity {
                 button5.setClickable(false);
                 button6.setClickable(false);
                 timer(0);
+                playmusic(2,0);
                 button3.setBackgroundResource(R.drawable.rounder_corners_2_pressed);
                 mytimer2 = new CountDownTimer(2000,1000) {
                     @Override
@@ -101,6 +102,9 @@ public class Start_Game extends AppCompatActivity {
                             q++;
                             correctanswer = startgame(q);
                         } else if (correct == 0){
+                            button9.setVisibility(View.INVISIBLE);
+                            button9.setClickable(false);
+                            playmusic(3,0);
                             button3.setBackgroundResource(R.drawable.wrong_answer);
                             Toast.makeText(getApplicationContext(),"Wrong Answer",Toast.LENGTH_LONG).show();
                         }
@@ -118,6 +122,7 @@ public class Start_Game extends AppCompatActivity {
                 button5.setClickable(false);
                 button6.setClickable(false);
                 timer(0);
+                playmusic(2,0);
                 button4.setBackgroundResource(R.drawable.rounder_corners_2_pressed);
                 mytimer2 = new CountDownTimer(2000,1000) {
                     @Override
@@ -134,6 +139,9 @@ public class Start_Game extends AppCompatActivity {
                             q++;
                             correctanswer = startgame(q);
                         } else if (correct == 0){
+                            button9.setVisibility(View.INVISIBLE);
+                            button9.setClickable(false);
+                            playmusic(3,0);
                             button4.setBackgroundResource(R.drawable.wrong_answer);
                             Toast.makeText(getApplicationContext(),"Wrong Answer",Toast.LENGTH_LONG).show();
                         }
@@ -150,6 +158,7 @@ public class Start_Game extends AppCompatActivity {
                 button5.setClickable(false);
                 button6.setClickable(false);
                 timer(0);
+                playmusic(2,0);
                 button5.setBackgroundResource(R.drawable.rounder_corners_2_pressed);
                 mytimer2 = new CountDownTimer(2000,1000) {
                     @Override
@@ -166,6 +175,9 @@ public class Start_Game extends AppCompatActivity {
                             q++;
                             correctanswer = startgame(q);
                         } else if (correct == 0){
+                            button9.setVisibility(View.INVISIBLE);
+                            button9.setClickable(false);
+                            playmusic(3,0);
                             button5.setBackgroundResource(R.drawable.wrong_answer);
                             Toast.makeText(getApplicationContext(),"Wrong Answer",Toast.LENGTH_LONG).show();
                         }
@@ -182,6 +194,7 @@ public class Start_Game extends AppCompatActivity {
                 button5.setClickable(false);
                 button6.setClickable(false);
                 timer(0);
+                playmusic(2,0);
                 button6.setBackgroundResource(R.drawable.rounder_corners_2_pressed);
                 mytimer2 = new CountDownTimer(2000,1000) {
                     @Override
@@ -198,6 +211,9 @@ public class Start_Game extends AppCompatActivity {
                             q++;
                             correctanswer = startgame(q);
                         } else if (correct == 0){
+                            button9.setVisibility(View.INVISIBLE);
+                            button9.setClickable(false);
+                            playmusic(3,0);
                             button6.setBackgroundResource(R.drawable.wrong_answer);
                             Toast.makeText(getApplicationContext(),"Wrong Answer",Toast.LENGTH_LONG).show();
                         }
@@ -209,6 +225,7 @@ public class Start_Game extends AppCompatActivity {
         button7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                stopmusic();
                 finish();
             }
         });
@@ -262,6 +279,7 @@ public class Start_Game extends AppCompatActivity {
 
     }
 
+
     private int checkans(char ans, char correctans) {
         if (ans == correctans){
             return 1;
@@ -305,6 +323,7 @@ public class Start_Game extends AppCompatActivity {
 
     private void timer(int t){
         if (t == 1){
+            playmusic(1,1);
             mytimer = new CountDownTimer(30000,1000){
                 @Override
                 public void onTick(long millisUntilFinished) {
@@ -314,15 +333,22 @@ public class Start_Game extends AppCompatActivity {
 
                 @Override
                 public void onFinish() {
+                    button9.setVisibility(View.INVISIBLE);
+                    button9.setClickable(false);
+                    playmusic(5,0);
                     timer=0;
                     button3.setClickable(false);
                     button4.setClickable(false);
                     button5.setClickable(false);
                     button6.setClickable(false);
-                    button3.setBackgroundResource(R.drawable.rounder_corners_2_pressed);
+                    /*button3.setBackgroundResource(R.drawable.rounder_corners_2_pressed);
                     button4.setBackgroundResource(R.drawable.rounder_corners_2_pressed);
                     button5.setBackgroundResource(R.drawable.rounder_corners_2_pressed);
-                    button6.setBackgroundResource(R.drawable.rounder_corners_2_pressed);
+                    button6.setBackgroundResource(R.drawable.rounder_corners_2_pressed); */
+                    button3.setVisibility(View.INVISIBLE);
+                    button4.setVisibility(View.INVISIBLE);
+                    button5.setVisibility(View.INVISIBLE);
+                    button6.setVisibility(View.INVISIBLE);
                     Toast.makeText(getApplicationContext(),"TIME UP, YOU LOSE",Toast.LENGTH_LONG).show();
                 }
             }.start();
@@ -345,6 +371,7 @@ public class Start_Game extends AppCompatActivity {
             button4.setClickable(true);
             button5.setClickable(true);
             button6.setClickable(true);
+            playmusic(4,0);
             char correctans = 'E';
             button2.setText(QuestionsGet.get(a).getQues());
             button3.setText(QuestionsGet.get(a).getOptiona());
@@ -362,10 +389,27 @@ public class Start_Game extends AppCompatActivity {
 
     }
 
-    private void playmusic(int track){
-        stopmusic();
-        mp2 = MediaPlayer.create(this,R.raw.kbc_theme1);
-        mp2.start();
+    private void playmusic(int track, int delayed){
+        if (delayed == 0){
+            stopmusic();
+        }
+        if (track == 1){
+            mp2 = MediaPlayer.create(this,R.raw.kbc_clock);
+            mp2.start();
+        }else if (track == 2){
+            mp2 = MediaPlayer.create(this,R.raw.kbc_lock);
+            mp2.start();
+        } else if (track == 3){
+            mp2 = MediaPlayer.create(this, R.raw.kbc_wrong_answer);
+            mp2.start();
+        }else if (track == 4){
+            mp2 = MediaPlayer.create(this, R.raw.kbc_new_ques);
+            mp2.start();
+        }
+        else if (track == 5) {
+            mp2 = MediaPlayer.create(this, R.raw.kbc_intro);
+            mp2.start();
+        }
     }
     private void stopmusic(){
         if (mp2.isPlaying()){
@@ -373,6 +417,18 @@ public class Start_Game extends AppCompatActivity {
             //mp2.release();
         }
     }
+
+/*    private void stopmusicdelayed(){
+        if (mp2.isPlaying()){
+            mp2.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                @Override
+                public void onCompletion(MediaPlayer mp) {
+                    mp2.stop();
+                }
+            });
+        }
+    } */
+
 
     @Override
     public void onBackPressed() {
